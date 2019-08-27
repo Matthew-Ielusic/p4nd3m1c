@@ -63,6 +63,7 @@ class CityTests {
 	
 	@Test
 	void testUnmodifiableListImpl() {
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {this.underTest.getUnmodfiableAdjacencyList().add(null);});
 		IImmutableCity immutable = this.underTest;
 		Assertions.assertThrows(UnsupportedOperationException.class, () -> {immutable.getNeighbors().add(null);});
 	}
