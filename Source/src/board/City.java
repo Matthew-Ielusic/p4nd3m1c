@@ -7,10 +7,10 @@ import java.util.List;
 public class City implements IImmutableCity {
 
 	private String name;
-	private ArrayList<City> adjacencies = new ArrayList<City>();
+	private ArrayList<City> adjacencyList = new ArrayList<City>();
 
-	public ArrayList<City> getAdjacencies() {
-		return adjacencies;
+	public List<City> getUnmodfiableAdjacencyList() {
+		return Collections.unmodifiableList(this.adjacencyList);
 	}
 
 	public void addNeighbor(City newNode) {
@@ -20,8 +20,8 @@ public class City implements IImmutableCity {
 		}
 		else
 		{
-			this.adjacencies.add(newNode);	
-			newNode.adjacencies.add(this);
+			this.adjacencyList.add(newNode);	
+			newNode.adjacencyList.add(this);
 		}
 	}
 
@@ -34,8 +34,8 @@ public class City implements IImmutableCity {
 	}
 
 	@Override
-	public List<IImmutableCity> getAdjacencyList() {
-		return Collections.unmodifiableList(this.getAdjacencies());
+	public List<IImmutableCity> getNeighbors() {
+		return Collections.unmodifiableList(this.getUnmodfiableAdjacencyList());
 	}
 
 }

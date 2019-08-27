@@ -1,6 +1,7 @@
 package boardTests;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -40,7 +41,7 @@ class CityTests {
 
 	@Test
 	void testNodeGetList() {
-		ArrayList<City> adjacencies = this.underTest.getAdjacencies();
+		List<City> adjacencies = this.underTest.getUnmodfiableAdjacencyList();
 		CollectionAssertions.assertEmpty(adjacencies);
 	}
 	
@@ -48,7 +49,7 @@ class CityTests {
 	void testAddNode() {
 		City newNode = new City();
 		this.underTest.addNeighbor(newNode);
-		Assertions.assertEquals(newNode, this.underTest.getAdjacencies().get(0));
+		Assertions.assertEquals(newNode, this.underTest.getUnmodfiableAdjacencyList().get(0));
 	}
 	
 	@Test
@@ -56,14 +57,14 @@ class CityTests {
 		City newNode = new City();
 		this.underTest.addNeighbor(newNode);
 		
-		CollectionAssertions.assertContains(this.underTest.getAdjacencies(), newNode);
-		CollectionAssertions.assertContains(newNode.getAdjacencies(), this.underTest);
+		CollectionAssertions.assertContains(this.underTest.getUnmodfiableAdjacencyList(), newNode);
+		CollectionAssertions.assertContains(newNode.getUnmodfiableAdjacencyList(), this.underTest);
 	}
 	
 	@Test
 	void testUnmodifiableListImpl() {
 		IImmutableCity immutable = this.underTest;
-		Assertions.assertThrows(UnsupportedOperationException.class, () -> {immutable.getAdjacencyList().add(null);});
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {immutable.getNeighbors().add(null);});
 	}
 	
 	@Test
