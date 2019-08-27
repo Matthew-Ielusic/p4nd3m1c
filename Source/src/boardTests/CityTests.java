@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import board.City;
+import board.IImmutableCity;
 class CityTests {
 
 	private City underTest;
@@ -29,11 +30,18 @@ class CityTests {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
+	
+	@Test
+	void testName() {
+		String expected = "Example";
+		this.underTest.setName(expected);
+		Assertions.assertEquals(expected, this.underTest.getName());
+	}
 
 	@Test
 	void testNodeGetList() {
 		ArrayList<City> adjacencies = this.underTest.getAdjacencies();
-		CollectionAssertions.AssertEmpty(adjacencies);
+		CollectionAssertions.assertEmpty(adjacencies);
 	}
 	
 	@Test
@@ -41,6 +49,21 @@ class CityTests {
 		City newNode = new City();
 		this.underTest.addNeighbor(newNode);
 		Assertions.assertEquals(newNode, this.underTest.getAdjacencies().get(0));
+	}
+	
+	@Test
+	void testNeighborsMutuallyAdjacent() {
+		City newNode = new City();
+		this.underTest.addNeighbor(newNode);
+		
+		CollectionAssertions.assertContains(this.underTest.getAdjacencies(), newNode);
+		CollectionAssertions.assertContains(newNode.getAdjacencies(), this.underTest);
+	}
+	
+	@Test
+	void testUnmodifiableListImpl() {
+		IImmutableCity immutable = this.underTest;
+		Assertions.assertThrows(UnsupportedOperationException.class, () -> {immutable.getAdjacencyList().add(null);});
 	}
 	
 	@Test

@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class CollectionAssertions {
 
-	public static <E> void AssertNonEmpty(Collection<E> underTest)
+	public static <E> void assertNonEmpty(Collection<E> underTest)
 	{
 		if (underTest == null)
 		{
@@ -20,7 +20,7 @@ public class CollectionAssertions {
 		}
 	}
 	
-	public static <E> void AssertEmpty(Collection<E> underTest)
+	public static <E> void assertEmpty(Collection<E> underTest)
 	{
 		if (underTest == null)
 		{
@@ -29,6 +29,18 @@ public class CollectionAssertions {
 		else if (!underTest.isEmpty())
 		{
 			Assertions.fail("The collection was not empty");
+		}
+	}
+	
+	public static <E> void assertContains(Collection<E> underTest, E expected)
+	{
+		if (underTest == null)
+		{
+			Assertions.fail("The collection was null");
+		}	
+		else if (!underTest.contains(expected))
+		{
+			Assertions.fail("The collection was did not contain the expected item");
 		}
 	}
 }
